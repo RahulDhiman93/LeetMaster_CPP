@@ -9,14 +9,12 @@
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        unordered_set<ListNode*> smap;
-        ListNode* node = head;
-        while(node != NULL) {
-            if (smap.contains(node->next)) {
-                return true;
-            }
-            smap.insert(node->next);
-            node = node->next;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast) return true;
         }
         return false;
     }
