@@ -15,47 +15,29 @@ public:
         if (l2 == NULL) return l1;
         ListNode* list1 = l1;
         ListNode* list2 = l2;
-        ListNode* resHead=NULL;
-        ListNode* res=NULL;
+        ListNode* resHead= new ListNode();
+        ListNode* res=resHead;
         int sum=0, carry=0, add=0;
-        while(list1 != NULL && list2 != NULL) {
-            sum = list1->val + list2->val + carry;
+        while(list1 != NULL || list2 != NULL) {
+            int v1 = list1 != NULL ? list1->val : 0;
+            int v2 = list2 != NULL ? list2->val : 0;
+            sum = v1 + v2 + carry;
             add = sum % 10;
             carry = sum / 10;
             ListNode* node = new ListNode(add);
-            if (resHead == NULL) {
-                resHead = node;
-                res = resHead;
-            } else {
-                res->next = node;
-                res = res->next;
+            res->next = node;
+            res = res->next;
+            
+            if (list1 != NULL) {
+                list1 = list1->next;
             }
-            list1 = list1->next;
-            list2 = list2->next;
-        }
-        while(list1 != NULL) {
-            sum = list1->val + carry;
-            add = sum % 10;
-            carry = sum / 10;
-            ListNode* node = new ListNode(add);
-            res->next = node;
-            res = res->next;
-            list1 = list1->next;
-        }
-        while(list2 != NULL) {
-            sum = list2->val + carry;
-            add = sum % 10;
-            carry = sum / 10;
-            ListNode* node = new ListNode(add);
-            res->next = node;
-            res = res->next;
-            list2 = list2->next;
+            if (list2 != NULL) {
+                list2 = list2->next;
+            }
         }
         if (carry > 0) {
-            ListNode* node = new ListNode(carry);
-            res->next = node;
-            res = res->next;
+            res->next = new ListNode(carry);
         }
-        return resHead;
+        return resHead->next;
     }
 };
