@@ -23,7 +23,6 @@ public:
             count++;
             if (count % k == 0) {
                 Result result = reverse(left, k);
-                // printLL(result.first);
                 curr->next = result.first;
                 result.last->next = temp;
                 curr = result.last;
@@ -53,13 +52,5 @@ private:
              k--;
         }
         return {prev, head};
-    }
-    void printLL(ListNode* head) {
-        ListNode* node = head;
-        cout<<"PRINTING ----->"<<endl;
-        while(node != NULL) {
-            cout<<node->val<<endl;
-            node = node->next;
-        }
     }
 };
