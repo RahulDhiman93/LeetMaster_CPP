@@ -14,7 +14,7 @@ public:
     int goodNodes(TreeNode* root) {
         if(root == NULL) return 0;
         int res = 0;
-        dfs(root, INT_MIN, res);
+        dfs(root, root->val, res);
         return res;
     }
 private:
