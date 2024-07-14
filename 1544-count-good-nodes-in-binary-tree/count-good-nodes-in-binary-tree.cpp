@@ -14,14 +14,14 @@ public:
     int goodNodes(TreeNode* root) {
         if(root == NULL) return 0;
         int res = 0;
-        checkNode(root, INT_MIN, res);
+        dfs(root, INT_MIN, res);
         return res;
     }
 private:
-    void checkNode(TreeNode* root, int tmax, int& res) {
+    void dfs(TreeNode* root, int tmax, int& res) {
         if (root == NULL) return;
         if (root->val >= tmax) res++;
-        checkNode(root->left, max(root->val, tmax), res);
-        checkNode(root->right, max(root->val, tmax), res);
+        dfs(root->left, max(root->val, tmax), res);
+        dfs(root->right, max(root->val, tmax), res);
     }
 };
