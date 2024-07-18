@@ -20,12 +20,10 @@ public:
 private:
     int dfs(TreeNode* root, int& res) {
         if(root == NULL) return 0;
-
         int lm = dfs(root->left, res);
         int rm = dfs(root->right, res);
         lm = max(lm, 0);
         rm = max(rm, 0);
-
         res = max(res, root->val+lm+rm);
         return root->val + max(lm, rm);
     }
