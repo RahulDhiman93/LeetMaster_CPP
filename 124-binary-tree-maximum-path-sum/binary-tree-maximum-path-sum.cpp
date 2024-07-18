@@ -14,7 +14,7 @@ public:
     int maxPathSum(TreeNode* root) {
         if (root == NULL) return 0;
         int res = root->val;
-        int dummy = dfs(root, res);
+        dfs(root, res);
         return res;
     }
 private:
