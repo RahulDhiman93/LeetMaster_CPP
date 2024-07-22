@@ -4,7 +4,7 @@ public:
         priority_queue<double, vector<double>, greater<double>> pq;
         unordered_map<double, vector<vector<int>>> umap;
         for (vector<int> point : points) {
-            double dist = sqrt(point[0] * point[0] + point[1] * point[1]);
+            double dist = (double) point[0] * point[0] + point[1] * point[1];
             umap[dist].push_back(point);
             pq.push(dist);
         }
