@@ -14,12 +14,12 @@ public:
     
     vector<int> getNewsFeed(int userId) {
         vector<int> res;
-        stack<pair<int, int>> pq = userTweetMap;
-        while(!pq.empty() && res.size() < 10) {
-            if (pq.top().second == userId || userFollowMap[userId].contains(pq.top().second)) {
-                res.push_back(pq.top().first);
+        stack<pair<int, int>> stk = userTweetMap;
+        while(!stk.empty() && res.size() < 10) {
+            if (stk.top().second == userId || userFollowMap[userId].contains(stk.top().second)) {
+                res.push_back(stk.top().first);
             }
-            pq.pop();
+            stk.pop();
         }
         return res;
     }
