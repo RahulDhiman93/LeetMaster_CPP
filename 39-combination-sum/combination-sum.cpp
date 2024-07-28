@@ -14,11 +14,11 @@ private:
         if(t<0 || n >= nums.size()) {
             return;
         }
-    
-        sub.push_back(nums[n]);
-        helper(nums, sub, n, t-nums[n], res);
 
-        sub.pop_back();
-        helper(nums, sub, n+1, t, res);
+        for (int i = n; i < nums.size(); ++i) {
+            sub.push_back(nums[i]);
+            helper(nums, sub, i, t-nums[i], res);
+            sub.pop_back();
+        }
     }
 };
