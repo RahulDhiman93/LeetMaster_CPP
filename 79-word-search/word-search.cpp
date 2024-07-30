@@ -16,7 +16,7 @@ private:
     bool helper(vector<vector<char>>& board, string word, int index, int i, int j, int m, int n) {
         if(i < 0 || j < 0 || i >= m || j >= n || board[i][j] != word[index]) return false;
         if(index == word.size()-1) return true;
-        board[i][j] = '#';
+        board[i][j] = '*';
         if(helper(board, word, index+1, i, j+1, m, n) ||
            helper(board, word, index+1, i, j-1, m, n) ||
            helper(board, word, index+1, i+1, j, m, n) ||
