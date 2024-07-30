@@ -6,7 +6,7 @@ public:
         return res;
     }
 private:
-    void helper(string s, vector<string> substr, int n, vector<vector<string>>& res) {
+    void helper(string& s, vector<string> substr, int n, vector<vector<string>>& res) {
         if(n == s.size()) {
             res.push_back(substr);
             return;
@@ -21,7 +21,7 @@ private:
         }
     }
 
-    bool isPal(string str, int i, int j) {
+    bool isPal(string& str, int i, int j) {
         while(i<j) {
             if(str[i]!=str[j]) {
                 return false;
