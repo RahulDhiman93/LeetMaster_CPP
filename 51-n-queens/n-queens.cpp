@@ -12,7 +12,7 @@ private:
                 unordered_set<int> diag1, unordered_set<int> diag2,
                 vector<vector<string>>& res) {
 
-        if (curr == sub.size()) {
+        if (curr == n) {
             res.push_back(sub);
             return;
         }
@@ -24,7 +24,7 @@ private:
             cols.insert(j); diag1.insert(curr-j); diag2.insert(curr+j);
 
             helper(n, curr + 1, sub, cols, diag1, diag2, res);
-            
+
             sub[curr][j] = '.';
             cols.erase(j); diag1.erase(curr-j); diag2.erase(curr+j);
         }
