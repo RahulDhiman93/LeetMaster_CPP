@@ -22,7 +22,7 @@ private:
         }
 
         for (int j = 0; j < n; ++j) {
-            if (cols.count(j) || diag1.count(curr-j) || diag2.count(curr+j)) continue;
+            if (cols.contains(j) || diag1.contains(curr-j) || diag2.contains(curr+j)) continue;
 
             sub[curr][j] = 'Q';
             cols.insert(j); diag1.insert(curr-j); diag2.insert(curr+j);
