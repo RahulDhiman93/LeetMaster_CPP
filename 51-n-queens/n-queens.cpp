@@ -17,16 +17,14 @@ private:
             return;
         }
 
-        if (curr >= sub.size()) {
-            return;
-        }
-
         for (int j = 0; j < n; ++j) {
             if (cols.contains(j) || diag1.contains(curr-j) || diag2.contains(curr+j)) continue;
 
             sub[curr][j] = 'Q';
             cols.insert(j); diag1.insert(curr-j); diag2.insert(curr+j);
+
             helper(n, curr + 1, sub, cols, diag1, diag2, res);
+            
             sub[curr][j] = '.';
             cols.erase(j); diag1.erase(curr-j); diag2.erase(curr+j);
         }
