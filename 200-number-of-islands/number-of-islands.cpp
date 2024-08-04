@@ -16,9 +16,9 @@ public:
     }
 private:
     void helper(vector<vector<char>>& grid, int i, int j, int m, int n) {
-        if(i<0 || i>=m || j<0 || j>=n || grid[i][j] == 'V' || grid[i][j] == '0')
+        if(i<0 || i>=m || j<0 || j>=n || grid[i][j] == '0')
             return;
-        grid[i][j] = 'V';
+        grid[i][j] = '0';
         helper(grid, i-1, j, m, n);
         helper(grid, i+1, j, m, n);
         helper(grid, i, j-1, m, n);
