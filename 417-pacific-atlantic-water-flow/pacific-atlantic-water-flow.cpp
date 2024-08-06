@@ -3,8 +3,8 @@ public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         int m = heights.size();
         int n = heights[0].size();
-        set<pair<int, int>> visP;
-        set<pair<int, int>> visA;
+        vector<vector<bool>> visP(m, vector<bool>(n, false));
+        vector<vector<bool>> visA(m, vector<bool>(n, false));
 
         for (int i = 0; i < m; ++i) {
             dfs(i, 0, m, n, visP, heights[i][0], heights);
@@ -19,7 +19,7 @@ public:
         vector<vector<int>> res;
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                if (visP.contains({i, j}) && visA.contains({i, j})) {
+                if (visP[i][j] && visA[i][j]) {
                     res.push_back({i, j});
                 }
             }
@@ -28,12 +28,12 @@ public:
     }
 
 private:
-    void dfs(int r, int c, int m, int n, set<pair<int, int>>& visited,
+    void dfs(int r, int c, int m, int n, vector<vector<bool>>& visited,
              int prevH, vector<vector<int>>& heights) {
-        if (visited.contains({r, c}) || r < 0 || c < 0 || r >= m || c >= n ||
-            prevH > heights[r][c])
+        if (r < 0 || c < 0 || r >= m || c >= n ||
+            prevH > heights[r][c] || visited[r][c])
             return;
-        visited.insert({r, c});
+        visited[r][c] = true;
         dfs(r+1, c, m, n, visited, heights[r][c], heights);
         dfs(r-1, c, m, n, visited, heights[r][c], heights);
         dfs(r, c+1, m, n, visited, heights[r][c], heights);
