@@ -23,7 +23,7 @@ public:
                 int i = q.front().first;
                 int j = q.front().second;
                 q.pop();
-
+                
                 if(i>0 && grid[i-1][j] == 1) {
                     grid[i-1][j] = 2;
                     q.push({i-1, j});
