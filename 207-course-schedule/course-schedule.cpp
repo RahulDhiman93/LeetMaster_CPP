@@ -1,11 +1,8 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        if (prerequisites.size() == 0)
-            return true;
         unordered_map<int, vector<int>> umap;
         int m = prerequisites.size();
-        int n = prerequisites[0].size();
         set<int> visited;
 
         for (int i = 0; i < m; ++i) {
