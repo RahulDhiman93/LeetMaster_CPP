@@ -11,17 +11,25 @@ public:
         } else if (n == 3) {
             return max(nums[0], max(nums[1], nums[2]));
         }
+        int res1 = helper(nums, n, true);
+        int res2 = helper(nums, n, false);
+        return max(res1, res2);
+    }
 
-        vector<int> nums2 = nums;
-        nums2[n-1] = 0;
+private:
+    int helper(vector<int> nums, int n, bool includeLast) {
+        if (!includeLast)
+            nums[n-1] = 0;
         for (int i = n - 3; i >= 0; --i) {
             if (i == n - 3) {
                 nums[i] += nums[i+2];
             } else {
                 nums[i] += max(nums[i+2], nums[i+3]);
-                nums2[i] += max(nums2[i+2], nums2[i+3]);
             }
         }
-        return max(nums2[0], max(nums[1], nums[2]));
+        if (includeLast)
+            return max(nums[1], nums[2]);
+        else
+            return nums[0];
     }
 };
