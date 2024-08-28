@@ -12,14 +12,18 @@ public:
         int target = sum / 2;
         unordered_set<int> vs;
         vs.insert(0);
+        bool res = false;
         for (int i = n - 1; i >= 0; --i) {
             unordered_set<int> vscopy = vs;
             for (auto itr = vscopy.begin(); itr != vscopy.end(); itr++) {
                 vs.insert(*itr + nums[i]);
+                if (vs.contains(target)) {
+                    res = true;
+                    break;
+                }
             }
-            if (vs.contains(target)) {
-                return true;
-            }
+            if (res)
+                return res;
         }
         return false;
     }
