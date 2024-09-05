@@ -1,30 +1,26 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        unordered_map<string, int> dp;
-        int n = prices.size();
-        return dfs(dp, prices, 0, n, true);
+        map<pair<int, bool>, int> dp;
+        return dfs(dp, prices, 0, true);
     }
 
 private:
-    int dfs(unordered_map<string, int>& dp, vector<int>& prices, int i, int n, bool isBuying) {
-        if (i >= n)
+    int dfs(map<pair<int, bool>, int>& dp, vector<int>& prices, int i, bool isBuying) {
+        if (i >= prices.size())
             return 0;
-
-        string key = to_string(i);
-        key += isBuying ? "#true" : "#false";
-        if (dp.contains(key))
-            return dp[key];
+        if (dp.contains({i, isBuying}))
+            return dp[{i, isBuying}];
 
         if (isBuying) {
-            int buy = dfs(dp, prices, i + 1, n, !isBuying) - prices[i];
-            int cooldown = dfs(dp, prices, i + 1, n, isBuying);
-            dp[key] = max(buy, cooldown);
+            int buy = dfs(dp, prices, i + 1, !isBuying) - prices[i];
+            int cooldown = dfs(dp, prices, i + 1, isBuying);
+            dp[{i, isBuying}] = max(buy, cooldown);
         } else {
-            int sell = dfs(dp, prices, i + 2, n, !isBuying) + prices[i];
-            int cooldown = dfs(dp, prices, i + 1, n, isBuying);
-            dp[key] = max(sell, cooldown);
+            int sell = dfs(dp, prices, i + 2, !isBuying) + prices[i];
+            int cooldown = dfs(dp, prices, i + 1, isBuying);
+            dp[{i, isBuying}] = max(sell, cooldown);
         }
-        return dp[key];
+        return dp[{i, isBuying}];
     }
 };
