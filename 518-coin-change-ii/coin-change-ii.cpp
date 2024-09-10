@@ -1,6 +1,31 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
+        // return dpTableSol(amount, coins);
+        map<pair<int, int>, int> cache;
+        return dfs(cache, coins, amount, coins.size(), 0, 0);
+    }
+
+private:
+    int dfs(map<pair<int, int>, int>& cache, vector<int>& coins, int amount, int m, int i, int a) {
+        if (a == amount) {
+            return 1;
+        }
+        if (a > amount) {
+            return 0;
+        }
+        if (i >= m) {
+            return 0;
+        }
+        if (cache.contains({i, a})) {
+            return cache[{i, a}];
+        }
+
+        cache[{i, a}] = dfs(cache, coins, amount, m, i + 1, a) + dfs(cache, coins, amount, m, i, a + coins[i]);
+        return cache[{i, a}];
+    }
+
+    int dpTableSol(int amount, vector<int>& coins) {
         int m = coins.size();
         vector<vector<int>> dp(m, vector<int> (amount + 1, 0));
 
