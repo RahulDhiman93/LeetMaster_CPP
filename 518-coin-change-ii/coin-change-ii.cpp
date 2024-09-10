@@ -1,10 +1,10 @@
 class Solution {
 public:
     int change(int amount, vector<int>& coins) {
-        // return dpTableSol(amount, coins);
-        map<pair<int, int>, int> cache;
-        int m = coins.size();
-        return dfs(cache, coins, amount, m, 0, 0);
+        return dpTableSol(amount, coins);
+        // map<pair<int, int>, int> cache;
+        // int m = coins.size();
+        // return dfs(cache, coins, amount, m, 0, 0);
     }
 
 private:
