@@ -22,7 +22,7 @@ private:
             return cache[{i, a}];
         }
 
-        cache[{i, a}] = dfs(cache, coins, amount, m, i + 1, a) + dfs(cache, coins, amount, m, i, a + coins[i]);
+        cache[{i, a}] = dfs(cache, coins, amount, m, i, a + coins[i]) + dfs(cache, coins, amount, m, i + 1, a);
         return cache[{i, a}];
     }
 
