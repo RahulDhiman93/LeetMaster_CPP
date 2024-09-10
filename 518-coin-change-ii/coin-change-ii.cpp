@@ -3,11 +3,12 @@ public:
     int change(int amount, vector<int>& coins) {
         // return dpTableSol(amount, coins);
         map<pair<int, int>, int> cache;
-        return dfs(cache, coins, amount, coins.size(), 0, 0);
+        int m = coins.size();
+        return dfs(cache, coins, amount, m, 0, 0);
     }
 
 private:
-    int dfs(map<pair<int, int>, int>& cache, vector<int>& coins, int amount, int m, int i, int a) {
+    int dfs(map<pair<int, int>, int>& cache, vector<int>& coins, int& amount, int& m, int i, int a) {
         if (a == amount) {
             return 1;
         }
