@@ -18,7 +18,7 @@ private:
         if (i >= m) {
             return 0;
         }
-        if (cache.contains({i, a})) {
+        if (cache.find({i, a}) != cache.end()) {
             return cache[{i, a}];
         }
 
