@@ -6,7 +6,7 @@ public:
         if (m + n != s3.size())
             return false;
         map<pair<int, int>, bool> dp;
-        return dfs(dp, s1, s2, s3, 0, 0, s1.size(), s2.size());
+        return dfs(dp, s1, s2, s3, 0, 0, m, n);
     }
 
 private:
@@ -20,6 +20,7 @@ private:
             return true;
         if (j < n && s2[j] == s3[i+j] && dfs(dp, s1, s2, s3, i, j + 1, m, n))
             return true;
+            
         dp[{i, j}] = false;
         return false;
     }
