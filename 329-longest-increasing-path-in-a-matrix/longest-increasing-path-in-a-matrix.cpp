@@ -1,10 +1,10 @@
 class Solution {
 public:
     int longestIncreasingPath(vector<vector<int>>& matrix) {
-        map<pair<int, int>, int> cache;
         int m = matrix.size();
         int n = matrix[0].size();
         int res = INT_MIN;
+        vector<vector<int>> cache(m, vector<int>(n, -1));
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
@@ -17,13 +17,13 @@ public:
     }
 
 private:
-    int dfs(vector<vector<int>>& matrix, map<pair<int, int>, int>& cache,
+    int dfs(vector<vector<int>>& matrix, vector<vector<int>>& cache,
             int prev, int i, int j, int& m, int& n) {
         if (i < 0 || j < 0 || i >= m || j >= n || (matrix[i][j] <= prev)) {
             return 0;
         }
-        if (cache.contains({i, j})) {
-            return cache[{i, j}];
+        if (cache[i][j] != -1) {
+            return cache[i][j];
         }
 
         int up = dfs(matrix, cache, matrix[i][j], i - 1, j, m, n);
@@ -31,7 +31,7 @@ private:
         int left = dfs(matrix, cache, matrix[i][j], i, j - 1, m, n);
         int right = dfs(matrix, cache, matrix[i][j], i, j + 1, m, n);
 
-        cache[{i, j}] = 1 + max(max(up, down), max(left, right));
-        return cache[{i, j}];
+        cache[i][j] = 1 + max(max(up, down), max(left, right));
+        return cache[i][j];
     }
 };
