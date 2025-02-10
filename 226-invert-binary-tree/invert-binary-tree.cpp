@@ -12,20 +12,21 @@
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if (root == NULL) return root;
-        helper(root);
-        return root;
+        TreeNode* head = root;
+        helper(head);
+        return head;
     }
 
 private:
-    void helper(TreeNode* root) {
-        if (root == NULL) return;
+    void helper(TreeNode* node) {
+        if(node == NULL) return;
 
-        TreeNode* temp = root->left;
-        root->left = root->right;
-        root->right = temp;
-        
-        helper(root->left);
-        helper(root->right);
+        TreeNode* temp;
+        temp = node->left;
+        node->left = node->right;
+        node->right = temp;
+
+        helper(node->left);
+        helper(node->right);    
     }
 };
