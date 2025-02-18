@@ -18,13 +18,19 @@ public:
             dfs(heights, atlanticVisited, m - 1, j, m, n, 0);
         }
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (pacificVisited.contains({i, j}) && atlanticVisited.contains({i, j})) {
-                    res.push_back({i, j});
-                }
+        for (auto itr = pacificVisited.begin(); itr != pacificVisited.end(); itr++) {
+            if (atlanticVisited.contains({itr->first, itr->second})) {
+                res.push_back({itr->first, itr->second});
             }
         }
+
+        // for (int i = 0; i < m; i++) {
+        //     for (int j = 0; j < n; j++) {
+        //         if (pacificVisited.contains({i, j}) && atlanticVisited.contains({i, j})) {
+        //             res.push_back({i, j});
+        //         }
+        //     }
+        // }
 
         return res;
     }
