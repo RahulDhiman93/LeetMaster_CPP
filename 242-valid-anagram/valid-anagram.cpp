@@ -1,19 +1,25 @@
 class Solution {
 public:
     bool isAnagram(string s, string t) {
-        if (s.size() != t.size()) {
-            return false;
-        }
+        int m = s.length(), n = t.length();
+        if (m != n) return false;
+
         unordered_map<char, int> umap;
-        for (int i=0; i<s.size(); i++) {
-            umap[s[i]]++;
-            umap[t[i]]--;
+
+        for(auto c : s) {
+            umap[c]++;
         }
-        for (auto i = umap.begin(); i != umap.end(); i++) {
-            if (i->second != 0) {
+
+        for(auto c : t) {
+            umap[c]--;
+        }
+
+        for(auto itr = umap.begin(); itr != umap.end(); ++itr) {
+            if (umap[itr->first] != 0) {
                 return false;
             }
-        } 
+        }
+
         return true;
     }
 };
