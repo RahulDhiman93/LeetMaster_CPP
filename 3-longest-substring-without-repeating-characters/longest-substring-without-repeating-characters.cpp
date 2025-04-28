@@ -6,16 +6,14 @@ public:
         int n = s.size();
         int i = 0, j = 0;
 
-        while(j < n) {
-            if(visited.contains(s[j])) {
+        while (j < n) {
+            while (visited.contains(s[j])) {
+                visited.erase(s[i]);
                 i++;
-                j = i;
-                visited.clear();
-            } else {
-                res = max(res, (j-i+1));
-                visited.insert(s[j]);
-                j++;
             }
+            res = max(res, (j - i + 1));
+            visited.insert(s[j]);
+            j++;
         }
 
         return res;
