@@ -1,27 +1,28 @@
 class Solution {
 public:
     bool isPalindrome(string s) {
-        string str = getSimpleStr(s);
-        for(int i=0,j=str.size()-1; i<str.size() && j>=0; ++i, --j) {
-            if (str[i] != str[j]) {
-                return false;
-            }
-        }
-        return true;
-    }
+        vector<char> str;
+        int diff = 'A' - 'a';
 
-private:
-    string getSimpleStr(string str) {
-        string ss;
-        for(char c : str) {
-            if (c>='A' && c <='Z') {
-                ss.push_back(static_cast<char>(tolower(c)));
-            } else if (c>='a' && c<='z') {
-                ss.push_back(c);
-            } else if (c>='0' && c<='9') {
-                ss.push_back(c);
+        for (char c : s) {
+            if (c >= 'A' && c <= 'Z') {
+                str.push_back(c - diff);
+            } else if (c >= 'a' && c <= 'z') {
+                str.push_back(c);
+            } else if (c >= '0' && c <= '9') {
+                str.push_back(c);
             }
         }
-        return ss;
+
+        int i = 0, j = str.size() - 1;
+
+        while(i < j) {
+            if(str[i] != str[j])
+                return false;
+            
+            i++; j--;
+        }
+
+        return true;
     }
 };
