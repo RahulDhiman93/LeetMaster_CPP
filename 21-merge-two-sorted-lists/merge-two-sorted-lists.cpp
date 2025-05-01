@@ -11,8 +11,8 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode res(0);
-        ListNode* node = &res;
+        ListNode* res = new ListNode();
+        ListNode* node = res;
 
         while(list1 && list2) {
             if (list1->val < list2->val) {
@@ -31,6 +31,6 @@ public:
             node->next = list2;
         }
 
-        return res.next;
+        return res->next;
     }
 };
