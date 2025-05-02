@@ -11,57 +11,36 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        if (head->next == NULL) {
-            return;
-        }
-
-        ListNode* fast=head;
-        ListNode* slow=head;
-        ListNode* prev=NULL;
-
-        while(fast != NULL && fast->next != NULL) {
-            prev = slow;
+        if (head == nullptr) return;
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        
+        while(fast && fast->next) {
             slow = slow->next;
             fast = fast->next->next;
         }
 
-        prev->next = NULL;
-
-        ListNode* l1 = head;
-        ListNode* l2 = reverseList(slow);
-
-        combine(l1, l2);
-    }
-
-private:
-    ListNode* reverseList(ListNode* head) {
-        ListNode* prev = NULL;
-        ListNode* curr = head;
-        ListNode* next = curr->next;
-        
-        while (curr != NULL) {
-            next = curr->next;
-            curr->next = prev;
-            prev = curr;
-            curr = next;
+        ListNode* second = slow->next;
+        ListNode* p = slow->next = nullptr;
+    
+        while(second != nullptr) {
+            ListNode* r = second->next;
+            second->next = p;
+            p = second;
+            second = r;
         }
-        
-        return prev;
-    }
 
-    void combine(ListNode* l1, ListNode* l2) {
-        while(l1 != NULL) {
-            ListNode* l1Next = l1->next;
-            ListNode* l2Next = l2->next;
+        ListNode* first = head;
+        second = p;
 
-            l1->next = l2;
-            if(l1Next == NULL) {
-                break;
-            }
-            l2->next = l1Next;
+        while(second != nullptr) {
+            ListNode* temp1 = first->next;
+            ListNode* temp2 = second->next;
 
-            l1=l1Next;
-            l2=l2Next;
+            first->next = second;
+            second->next = temp1;
+            first = temp1;
+            second = temp2;
         }
     }
 };
