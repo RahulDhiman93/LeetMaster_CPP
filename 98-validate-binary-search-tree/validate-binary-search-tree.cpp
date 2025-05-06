@@ -16,10 +16,10 @@ public:
     }
 
 private:
-    bool helper(TreeNode* root, long left, long right) {
-        if (root == NULL) return true;
-        if (root->val > left && root->val < right) {
-            return (helper(root->left, left, root->val) && helper(root->right, root->val, right));
+    bool helper(TreeNode* root, long l, long r){
+        if (root == nullptr) return true;
+        if (root->val > l && root->val < r) {
+            return helper(root->left, l, root->val) && helper(root->right, root->val, r);
         }
         return false;
     }
