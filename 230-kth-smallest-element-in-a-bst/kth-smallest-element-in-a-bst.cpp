@@ -13,15 +13,16 @@ class Solution {
 public:
     int kthSmallest(TreeNode* root, int k) {
         vector<int> checker;
-        dfs(root, checker);
+        dfs(root, k, checker);
         return checker[k-1];
     }
 
 private:
-    void dfs(TreeNode* root, vector<int>& checker) {
+    void dfs(TreeNode* root, int& k, vector<int>& checker) {
         if (root == nullptr) return;
-        dfs(root->left, checker);
+        dfs(root->left, k, checker);
         checker.push_back(root->val);
-        dfs(root->right, checker);
+        if (checker.size() == k) return;
+        dfs(root->right, k, checker);
     }
 };
