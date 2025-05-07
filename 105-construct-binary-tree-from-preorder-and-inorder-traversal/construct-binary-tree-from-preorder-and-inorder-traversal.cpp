@@ -12,25 +12,16 @@
 class Solution {
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int index = 0;
-        return helper(preorder, inorder, index, 0, inorder.size()-1);
-    }
-private:
-    TreeNode* helper(vector<int>& preorder, vector<int>& inorder, int& index, int i, int j) {
-        if (i>j) return NULL;
-        TreeNode* root = new TreeNode(preorder[index++]);
+        if (preorder.empty() || inorder.empty()) return nullptr;
 
-        int mid = 0;
-        for(int i=0;i<inorder.size();++i) {
-            if(root->val==inorder[i]) {
-                mid = i;
-                break;
-            }
-        }
-
-        root->left = helper(preorder, inorder, index, i, mid-1);
-        root->right = helper(preorder, inorder, index, mid+1, j);
-
+        TreeNode* root = new TreeNode(preorder[0]);
+        auto mid = find(inorder.begin(), inorder.end(), preorder[0]) - inorder.begin();
+        vector<int> leftPre(preorder.begin() + 1, preorder.begin() + mid + 1);
+        vector<int> rightPre(preorder.begin() + mid + 1, preorder.end());
+        vector<int> leftIn(inorder.begin(), inorder.begin() + mid);
+        vector<int> rightIn(inorder.begin() + mid + 1, inorder.end());
+        root->left = buildTree(leftPre, leftIn);
+        root->right = buildTree(rightPre, rightIn);
         return root;
     }
 };
