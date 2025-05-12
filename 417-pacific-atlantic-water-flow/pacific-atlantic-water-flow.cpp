@@ -3,40 +3,41 @@ public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
         int m = heights.size();
         int n = heights[0].size();
-        vector<vector<int>> res;
 
         set<pair<int, int>> pacificVisited;
         set<pair<int, int>> atlanticVisited;
 
-        for (int i = 0; i < m; i++) {
-            dfs(heights, pacificVisited, i, 0, m, n, 0);
-            dfs(heights, atlanticVisited, i, n - 1, m, n, 0);
+        vector<vector<int>> res;
+
+        for(int i = 0; i < m; ++i) {
+            dfs(heights, pacificVisited, 0, i, 0, m, n);
+            dfs(heights, atlanticVisited, 0, i, n-1, m, n);
         }
 
-        for (int j = 0; j < n; j++) {
-            dfs(heights, pacificVisited, 0, j, m, n, 0);
-            dfs(heights, atlanticVisited, m - 1, j, m, n, 0);
+        for(int j = 0; j < n; ++j) {
+            dfs(heights, pacificVisited, 0, 0, j, m, n);
+            dfs(heights, atlanticVisited, 0, m-1, j, m, n);
         }
 
-        for (auto itr = pacificVisited.begin(); itr != pacificVisited.end(); itr++) {
-            if (atlanticVisited.contains({itr->first, itr->second})) {
-                res.push_back({itr->first, itr->second});
+        for(auto p: pacificVisited) {
+            if (atlanticVisited.contains(p)) {
+                res.push_back({p.first, p.second});
             }
         }
-        
+
         return res;
     }
 
 private:
-    void dfs(vector<vector<int>>& heights, set<pair<int, int>>& visited, int i, int j, int m, int n, int prev) {
-        if (i < 0 || j < 0 || i >= m || j >= n || heights[i][j] < prev || visited.contains({i, j}))
+    void dfs(vector<vector<int>>& heights, set<pair<int, int>>& visited, int prev, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >=m || j >= n || heights[i][j] < prev || visited.contains({i, j}))
             return;
-
+        
         visited.insert({i, j});
 
-        dfs(heights, visited, i + 1, j, m, n, heights[i][j]);
-        dfs(heights, visited, i - 1, j, m, n, heights[i][j]);
-        dfs(heights, visited, i, j + 1, m, n, heights[i][j]);
-        dfs(heights, visited, i, j - 1, m, n, heights[i][j]);
+        dfs(heights, visited, heights[i][j], i + 1, j, m, n);
+        dfs(heights, visited, heights[i][j], i - 1, j, m, n);
+        dfs(heights, visited, heights[i][j], i, j + 1, m, n);
+        dfs(heights, visited, heights[i][j], i, j - 1, m, n);
     }
 };
