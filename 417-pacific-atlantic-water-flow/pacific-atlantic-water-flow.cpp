@@ -4,8 +4,8 @@ public:
         int m = heights.size();
         int n = heights[0].size();
 
-        set<pair<int, int>> pacificVisited;
-        set<pair<int, int>> atlanticVisited;
+        vector<vector<int>> pacificVisited(m, vector<int> (n, 0));
+        vector<vector<int>> atlanticVisited(m, vector<int> (n, 0));
 
         vector<vector<int>> res;
 
@@ -19,9 +19,11 @@ public:
             dfs(heights, atlanticVisited, 0, m-1, j, m, n);
         }
 
-        for(auto p: pacificVisited) {
-            if (atlanticVisited.contains(p)) {
-                res.push_back({p.first, p.second});
+        for(int i = 0; i < m; i++) {
+            for(int j = 0; j < n; j++) {
+                if (pacificVisited[i][j] == 1 && atlanticVisited[i][j] == 1) {
+                    res.push_back({i, j});
+                }
             }
         }
 
@@ -29,11 +31,11 @@ public:
     }
 
 private:
-    void dfs(vector<vector<int>>& heights, set<pair<int, int>>& visited, int prev, int i, int j, int m, int n) {
-        if (i < 0 || j < 0 || i >=m || j >= n || heights[i][j] < prev || visited.contains({i, j}))
+    void dfs(vector<vector<int>>& heights, vector<vector<int>>& visited, int prev, int i, int j, int m, int n) {
+        if (i < 0 || j < 0 || i >=m || j >= n || heights[i][j] < prev || visited[i][j] == 1)
             return;
         
-        visited.insert({i, j});
+        visited[i][j] = 1;
 
         dfs(heights, visited, heights[i][j], i + 1, j, m, n);
         dfs(heights, visited, heights[i][j], i - 1, j, m, n);
