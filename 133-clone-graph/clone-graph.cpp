@@ -22,28 +22,27 @@ public:
 class Solution {
 public:
     Node* cloneGraph(Node* node) {
-        if(node == NULL) return NULL;
-        unordered_map<Node*, Node*> umap;
+        if (node == nullptr) return nullptr;
+        unordered_map<Node*, Node*> hmap;
 
-        Node* newNode = new Node(node->val);
-        umap[node] = newNode;
+        Node* temp = new Node(node->val);
+        hmap[node] = temp;
 
         queue<Node*> q;
         q.push(node);
 
         while(!q.empty()) {
-            Node* curr = q.front();
-            q.pop();
+            Node* front = q.front(); q.pop();
 
-            for(Node* subNode: curr->neighbors) {
-                if(!umap.contains(subNode)) {
-                    umap[subNode] = new Node(subNode->val);
-                    q.push(subNode);
+            for(Node* n: front->neighbors) {
+                if(!hmap.contains(n)) {
+                    hmap[n] = new Node(n->val);
+                    q.push(n);
                 }
-                umap[curr]->neighbors.push_back(umap[subNode]);
+                hmap[front]->neighbors.push_back(hmap[n]);
             }
         }
 
-        return newNode;
+        return temp;
     }
 };
