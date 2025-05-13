@@ -6,18 +6,17 @@ public:
         unordered_map<int, vector<int>> graph;
         unordered_set<int> visited;
 
-        for (int i = 0; i < numCourses; ++i) {
+        for(int i = 0; i < numCourses; ++i) {
             graph[i] = {};
         }
 
-        for (int i = 0; i < prerequisites.size(); ++i) {
+        for(int i = 0; i < prerequisites.size(); ++i) {
             graph[prerequisites[i][0]].push_back(prerequisites[i][1]);
         }
 
-        for (int i = 0; i < numCourses; ++i) {
-            if (!dfs(graph, visited, i)) {
+        for(int i = 0; i < numCourses; ++i) {
+            if (!dfs(graph, visited, i))
                 return false;
-            }
         }
 
         return true;
@@ -33,9 +32,8 @@ private:
         
         visited.insert(key);
         for(int value: graph[key]) {
-            if (!dfs(graph, visited, value)) {
+            if (!dfs(graph, visited, value))
                 return false;
-            }
         }
         visited.erase(key);
         graph[key] = {};
