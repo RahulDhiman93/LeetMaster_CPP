@@ -1,35 +1,44 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        int m = prerequisites.size();
-        unordered_map<int, vector<int>> umap;
-        set<int> visited;
+        if (prerequisites.size() == 0) return true;
 
-        for (int i = 0; i < m; ++i) {
-            umap[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        unordered_map<int, vector<int>> graph;
+        unordered_set<int> visited;
+
+        for (int i = 0; i < numCourses; ++i) {
+            graph[i] = {};
         }
 
-        for(int i = 0; i < numCourses; ++i) {
-            if(!dfs(umap, visited, i))
+        for (int i = 0; i < prerequisites.size(); ++i) {
+            graph[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        }
+
+        for (int i = 0; i < numCourses; ++i) {
+            if (!dfs(graph, visited, i)) {
                 return false;
+            }
         }
+
         return true;
     }
 
 private:
-    bool dfs(unordered_map<int, vector<int>>& umap, set<int>& visited, int curr) {
-        if(visited.contains(curr))
+    bool dfs(unordered_map<int, vector<int>>& graph, unordered_set<int>& visited, int key) {
+        if (visited.contains(key))
             return false;
-        if(umap[curr].empty())
+        
+        if (graph[key].empty())
             return true;
         
-        visited.insert(curr);
-        for(int pre: umap[curr]) {
-            if(!dfs(umap, visited, pre))
+        visited.insert(key);
+        for(int value: graph[key]) {
+            if (!dfs(graph, visited, value)) {
                 return false;
+            }
         }
-        visited.erase(curr);
-        umap[curr].clear();
+        visited.erase(key);
+        graph[key] = {};
         return true;
     }
 };
