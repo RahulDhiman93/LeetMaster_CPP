@@ -9,14 +9,15 @@ public:
         } else if (n == 2) {
             return max(nums[0], nums[1]);
         }
-        
-        for (int i = n - 3; i >= 0; --i) {
+
+        for(int i = n - 3; i >= 0; i--) {
             if (i == n - 3) {
                 nums[i] += nums[i+2];
             } else {
                 nums[i] += max(nums[i+2], nums[i+3]);
             }
         }
+
         return max(nums[0], nums[1]);
     }
 };
