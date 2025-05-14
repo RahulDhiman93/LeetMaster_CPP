@@ -1,23 +1,33 @@
 class Solution {
 public:
     int rob(vector<int>& nums) {
-        int n = nums.size();
-        if (n==1)
-            return nums[0];
-        return max(helper(nums, 0, n-2), helper(nums, 1, n-1));
+        if (nums.empty()) return 0;
+
+        vector<int> nums1(nums.begin()+1, nums.end());
+        vector<int> nums2(nums.begin(), nums.end()-1);
+ 
+        return max(nums[0], max(helper(nums1), helper(nums2)));
     }
+
 private:
-    int helper(vector<int>& nums, int s, int n) {
-        int prev = 0;
-        int curr = 0;
-        int next = 0;
-        
-        for (int i = s; i <= n; i++) {
-            next = max(prev + nums[i], curr);
-            prev = curr;
-            curr = next;
+    int helper(vector<int> nums) {
+        int n = nums.size();
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return nums[0];
+        } else if (n == 2) {
+            return max(nums[0], nums[1]);
         }
-        
-        return curr;
+
+        for(int i = n - 3; i >= 0; i--) {
+            if (i == n - 3) {
+                nums[i] += nums[i+2];
+            } else {
+                nums[i] += max(nums[i+2], nums[i+3]);
+            }
+        }
+
+        return max(nums[0], nums[1]);
     }
 };
