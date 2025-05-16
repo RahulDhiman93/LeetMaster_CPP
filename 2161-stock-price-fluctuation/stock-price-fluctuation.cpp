@@ -1,58 +1,41 @@
 class StockPrice {
 private:
-    pair<int, int> maxPair;
-    pair<int, int> minPair;
-    pair<int, int> latest;
+    int latestTime;
     unordered_map<int, int> tpMap;
+    map<int, int> priceMap;
 
 public:
     StockPrice() {
-        maxPair = {0, INT_MIN};
-        minPair = {0, INT_MAX};
-        latest = {0, 0};
-        tpMap = {};
+        latestTime = 0;
     }
-
+    
     void update(int timestamp, int price) {
+        latestTime = max(latestTime, timestamp);
+
+        if (tpMap.contains(timestamp)) {
+            int oldPrice = tpMap[timestamp];
+            priceMap[oldPrice]--;
+
+            if (priceMap[oldPrice] == 0) {
+                priceMap.erase(oldPrice);
+            }
+        }
+
         tpMap[timestamp] = price;
-
-        if (timestamp >= latest.first) {
-            latest.first = timestamp;
-            latest.second = price;
-        }
-
-        if (timestamp == maxPair.first) {
-            maxPair = {0, INT_MIN};
-            for (auto itr = tpMap.begin(); itr != tpMap.end(); itr++) {
-                if (itr->second > maxPair.second) {
-                    maxPair.first = itr->first;
-                    maxPair.second = itr->second;
-                }
-            }
-        } else if (price > maxPair.second) {
-            maxPair.first = timestamp;
-            maxPair.second = price;
-        }
-
-        if (timestamp == minPair.first) {
-            minPair = {0, INT_MAX};
-            for (auto itr = tpMap.begin(); itr != tpMap.end(); itr++) {
-                if (itr->second < minPair.second) {
-                    minPair.first = itr->first;
-                    minPair.second = itr->second;
-                }
-            }
-        } else if (price < minPair.second) {
-            minPair.first = timestamp;
-            minPair.second = price;
-        }
+        priceMap[price]++;
     }
-
-    int current() { return latest.second; }
-
-    int maximum() { return maxPair.second; }
-
-    int minimum() { return minPair.second; }
+    
+    int current() {
+        return tpMap[latestTime];
+    }
+    
+    int maximum() {
+        return priceMap.rbegin()->first;
+    }
+    
+    int minimum() {
+        return priceMap.begin()->first;
+    }
 };
 
 /**
