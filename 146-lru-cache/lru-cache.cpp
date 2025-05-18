@@ -1,71 +1,70 @@
-class Node {
-public:
+struct Node {
     int key;
     int val;
-    Node* prev;
     Node* next;
-    
-    Node(int keyPass, int value) {
-        key = keyPass;
-        val = value;
-        prev = NULL;
-        next = NULL;
+    Node* prev;
+
+    Node(int key, int val) {
+        this->key = key;
+        this->val = val;
+        next = nullptr;
+        prev = nullptr;
     }
 };
 
-class LRUCache {
+class LRUCache {   
 private:
-    unordered_map<int, Node*> umap;
-    int cap=0;
-    Node* left;
-    Node* right;
-
-    void remove(Node* node) {
-        Node* prev = node->prev;
-        Node* next = node->next;
-        prev->next = next;
-        next->prev = prev;
-    }
-
-    void insert(Node* node) {
-        Node* prev = right->prev;
-        Node* next = right;
-        prev->next = node;
-        next->prev = node;
-        node->prev = prev;
-        node->next = next;
-    }
+    int capacity;
+    unordered_map<int, Node*> hmap;
+    Node* head = new Node(-1, -1);
+    Node* tail = new Node(-1, -1);
 
 public:
     LRUCache(int capacity) {
-        cap = capacity;
-        left = new Node(0,0);
-        right = new Node(0,0);
-        left->next = right;
-        right->prev = left;        
+        this->capacity = capacity;
+        head->next = tail;
+        tail->prev = head;
     }
     
     int get(int key) {
-        if (umap.contains(key)) {
-            remove(umap[key]);
-            insert(umap[key]);
-            return umap[key]->val;
+        if (!hmap.contains(key)) {
+            return -1;
         }
-        return -1;
+
+        Node* node = hmap[key];
+        remove(node);
+        add(node);
+        return node->val;
     }
     
     void put(int key, int value) {
-        if (umap.contains(key)) {
-            remove(umap[key]);
+        if (hmap.contains(key)) {
+            Node* old = hmap[key];
+            remove(old);
         }
-        umap[key] = new Node(key, value);
-        insert(umap[key]);
 
-        if (umap.size() > cap) {
-            Node* lru = left->next;
-            remove(lru);
-            umap.erase(lru->key);
+        Node* node = new Node(key, value);
+        hmap[key] = node;
+        add(node);
+
+        if (hmap.size() > capacity) {
+            Node* del = head->next;
+            remove(del);
+            hmap.erase(del->key);
         }
+    }
+
+    void add(Node* node) {
+        Node* lastNode = tail->prev;
+        lastNode->next = node;
+        node->prev = lastNode;
+        node->next = tail;
+        tail->prev = node;
+    }
+
+    void remove(Node* node) {
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
     }
 };
 
