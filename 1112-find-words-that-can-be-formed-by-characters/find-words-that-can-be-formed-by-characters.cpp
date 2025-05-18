@@ -8,19 +8,21 @@ public:
 
         int res = 0;
         for (int i = 0; i < words.size(); ++i) {
-            unordered_map<char, int> checkMap = charsMap;
-            int temp = 0;
-            for (int j = 0; j < words[i].size(); ++j) {
-                if (checkMap.contains(words[i][j])) {
-                    temp++;
-                    checkMap[words[i][j]]--;
-                    if (checkMap[words[i][j]] == 0) {
-                        checkMap.erase(words[i][j]);
-                    }
+            unordered_map<char, int> checkMap;
+            for (char c : words[i]) {
+                checkMap[c]++;
+            }
+
+            bool good = true;
+            for (char c : words[i]) {
+                if (!charsMap.contains(c) || checkMap[c] > charsMap[c]) {
+                    good = false;
+                    break;
                 }
             }
-            if (temp == words[i].size()) {
-                res += temp;
+
+            if (good) {
+                res += words[i].size();
             }
         }
 
