@@ -1,17 +1,35 @@
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n, 1);
         int res = 1;
-        for (int i = n - 1; i >= 0; --i) {
-            for (int j = i + 1; j < n; ++j) {
-                if (nums[i] < nums[j]) {
-                    dp[i] = max(dp[i], 1+dp[j]);
-                    res = max(res, dp[i]);
-                }
-            }
+        unordered_map<int, int> memo;
+        for (int i = 0; i < nums.size(); i++) {
+            res = max(res, dfs(nums, memo, i));
         }
         return res;
+    }
+
+private:
+    int dfs(vector<int>& nums, unordered_map<int, int>& memo, int index) {
+        if (index >= nums.size()) {
+            return 0;
+        }
+
+        if (index == nums.size() - 1) {
+            return 1;
+        }
+
+        if (memo.contains(index)) {
+            return memo[index];
+        }
+
+        int ans = 1;
+        for (int i = index; i < nums.size(); i++) {
+            if (nums[i] > nums[index]) {
+                ans = max(ans, 1+dfs(nums, memo, i));
+            }
+        }
+        memo[index] = ans;
+        return memo[index];
     }
 };
