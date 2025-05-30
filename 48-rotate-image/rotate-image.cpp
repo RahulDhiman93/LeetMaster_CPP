@@ -1,20 +1,20 @@
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
-        map<pair<int, int>, int> hmap;
-        int n = matrix.size();
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                hmap[{i, j}] = matrix[i][j];
-            }
-        }
+        int l = 0, r = matrix.size() - 1;
 
-        int m = n-1;
-        for(int j = 0; j < n; j++) {
-            for(int i = 0; i < n; i++) {
-                matrix[i][j] = hmap[{m, i}];
+        while (l < r) {
+            for (int i = 0; i < (r-l); i++) {
+                int top = l, bottom = r;
+
+                int topL = matrix[top][l + i];
+
+                matrix[top][l + i] = matrix[bottom - i][l];
+                matrix[bottom - i][l] = matrix[bottom][r - i];
+                matrix[bottom][r - i] = matrix[top + i][r];
+                matrix[top + i][r] = topL;
             }
-            m--;
+            l++; r--;
         }
     }
 };
