@@ -8,18 +8,13 @@ public:
         this->k = k;
         for (int num: nums) {
             pq.push(num);
-        }
-
-        while(pq.size() > this->k) {
-            pq.pop();
+            if(pq.size() > k) pq.pop();
         }
     }
     
     int add(int val) {
         pq.push(val);
-        while(pq.size() > this->k) {
-            pq.pop();
-        }
+        if(pq.size() > this->k) pq.pop();
         return pq.top();
     }
 };
