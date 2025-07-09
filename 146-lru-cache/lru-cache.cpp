@@ -12,7 +12,7 @@ struct Node {
     }
 };
 
-class LRUCache {   
+class LRUCache {
 private:
     int capacity;
     unordered_map<int, Node*> hmap;
@@ -42,15 +42,15 @@ public:
             Node* old = hmap[key];
             remove(old);
         }
-
-        Node* node = new Node(key, value);
-        hmap[key] = node;
-        add(node);
+        
+        Node* newNode = new Node(key, value);
+        hmap[key] = newNode;
+        add(newNode);
 
         if (hmap.size() > capacity) {
-            Node* del = head->next;
-            remove(del);
-            hmap.erase(del->key);
+            Node* extra = head->next;
+            remove(extra);
+            hmap.erase(extra->key);
         }
     }
 
