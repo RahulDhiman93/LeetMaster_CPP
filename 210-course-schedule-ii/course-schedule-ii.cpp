@@ -1,42 +1,42 @@
 class Solution {
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        int m = prerequisites.size();
-        unordered_map<int, vector<int>> umap;
-        set<int> visited;
-        set<int> repeated;
-        vector<int> res;
+        unordered_map<int, vector<int>> preReq;
 
-        for (int i = 0; i < m; ++i) {
-            umap[prerequisites[i][0]].push_back(prerequisites[i][1]);
+        for (const auto& pair : prerequisites) {
+            preReq[pair[0]].push_back(pair[1]);
         }
 
-        for(int i = 0; i < numCourses; ++i) {
-            if(!dfs(umap, visited, repeated, res, i))
+        vector<int> output;
+        unordered_set<int> visited;
+        unordered_set<int> cycle;
+
+        for (int i = 0; i < numCourses; ++i) {
+            if (!dfs(i, preReq, visited, cycle, output))
                 return {};
         }
-
-        return res;
+        return output;
     }
 
 private:
-    bool dfs(unordered_map<int, vector<int>>& umap, set<int>& visited,
-             set<int>& repeated, vector<int>& res, int curr) {
-        if(repeated.contains(curr))
+    bool dfs(int curr, unordered_map<int, vector<int>>& preReq,
+             unordered_set<int>& visited, unordered_set<int>& cycle,
+             vector<int>& output) {
+
+        if (cycle.contains(curr))
             return false;
-        if(visited.contains(curr))
+        
+        if (visited.contains(curr))
             return true;
-
-        repeated.insert(curr);
-
-        for(int pre : umap[curr]) {
-            if(!dfs(umap, visited, repeated, res, pre))
+        
+        cycle.insert(curr);
+        for (int pre: preReq[curr]) {
+            if (!dfs(pre, preReq, visited, cycle, output))
                 return false;
         }
-
-        repeated.erase(curr);
+        cycle.erase(curr);
         visited.insert(curr);
-        res.push_back(curr);
+        output.push_back(curr);
         return true;
     }
 };
