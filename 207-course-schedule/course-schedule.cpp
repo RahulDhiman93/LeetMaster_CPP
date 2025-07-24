@@ -1,21 +1,17 @@
 class Solution {
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        if (prerequisites.size() == 0) return true;
+        unordered_map<int, vector<int>> prereq;
 
-        unordered_map<int, vector<int>> graph;
+        for (const auto& pair: prerequisites) {
+            prereq[pair[0]].push_back(pair[1]);
+        }
+
         unordered_set<int> visited;
+        unordered_set<int> cycle;
 
-        for(int i = 0; i < numCourses; ++i) {
-            graph[i] = {};
-        }
-
-        for(int i = 0; i < prerequisites.size(); ++i) {
-            graph[prerequisites[i][0]].push_back(prerequisites[i][1]);
-        }
-
-        for(int i = 0; i < numCourses; ++i) {
-            if (!dfs(graph, visited, i))
+        for (int i = 0; i < numCourses; ++i) {
+            if (!dfs(i, prereq, visited, cycle))
                 return false;
         }
 
@@ -23,20 +19,22 @@ public:
     }
 
 private:
-    bool dfs(unordered_map<int, vector<int>>& graph, unordered_set<int>& visited, int key) {
-        if (visited.contains(key))
+    bool dfs(int curr, unordered_map<int, vector<int>>& prereq, unordered_set<int>& visited, unordered_set<int>& cycle) {
+
+        if (cycle.contains(curr))
             return false;
         
-        if (graph[key].empty())
+        if (visited.contains(curr))
             return true;
         
-        visited.insert(key);
-        for(int value: graph[key]) {
-            if (!dfs(graph, visited, value))
+        cycle.insert(curr);
+        for (int pre: prereq[curr]) {
+            if (!dfs(pre, prereq, visited, cycle)) {
                 return false;
+            }
         }
-        visited.erase(key);
-        graph[key] = {};
+        cycle.erase(curr);
+        visited.insert(curr);
         return true;
     }
 };
