@@ -11,9 +11,9 @@ class Solution:
                 else:
                     stack.append(i)
         
-        res = ""
+        res = []
         for i, c in enumerate(s):
             if i not in stack:
-                res += c
+                res.append(c)
         
-        return res
+        return ''.join(res)
