@@ -9,6 +9,9 @@ class Solution:
         while j < len(prices):
             if prices[i] > prices[j]:
                 i = j
+                j += 1
+                continue
+
             res = max(res, prices[j] - prices[i])
             j += 1
         
