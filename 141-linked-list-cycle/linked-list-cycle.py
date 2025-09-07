@@ -5,10 +5,7 @@
 #         self.next = None
 
 class Solution:
-    def hasCycle(self, head: Optional[ListNode]) -> bool:
-        if not head:
-            return False
-        
+    def hasCycle(self, head: Optional[ListNode]) -> bool:        
         slow = head
         fast = head
 
